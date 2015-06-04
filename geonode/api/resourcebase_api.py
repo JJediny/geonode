@@ -484,7 +484,7 @@ class ResourceBaseResource(CommonModelApi):
 
     class Meta(CommonMetaApi):
         queryset = ResourceBase.objects.polymorphic_queryset() \
-            .distinct().order_by('-date')
+            .distinct().order_by(settings, 'DEFAULT_SEARCH_SORT')
         if settings.RESOURCE_PUBLISHING:
             queryset = queryset.filter(is_published=True)
         resource_name = 'base'
@@ -496,7 +496,7 @@ class FeaturedResourceBaseResource(CommonModelApi):
     """Only the featured resourcebases"""
 
     class Meta(CommonMetaApi):
-        queryset = ResourceBase.objects.filter(featured=True).order_by('-date')
+        queryset = ResourceBase.objects.filter(featured=True).order_by(settings, 'DEFAULT_SEARCH_SORT')
         if settings.RESOURCE_PUBLISHING:
             queryset = queryset.filter(is_published=True)
         resource_name = 'featured'
@@ -507,7 +507,7 @@ class LayerResource(CommonModelApi):
     """Layer API"""
 
     class Meta(CommonMetaApi):
-        queryset = Layer.objects.distinct().order_by('-date')
+        queryset = Layer.objects.distinct().order_by(settings, 'DEFAULT_SEARCH_SORT')
         if settings.RESOURCE_PUBLISHING:
             queryset = queryset.filter(is_published=True)
         resource_name = 'layers'
@@ -519,7 +519,7 @@ class MapResource(CommonModelApi):
     """Maps API"""
 
     class Meta(CommonMetaApi):
-        queryset = Map.objects.distinct().order_by('-date')
+        queryset = Map.objects.distinct().order_by(settings, 'DEFAULT_SEARCH_SORT')
         if settings.RESOURCE_PUBLISHING:
             queryset = queryset.filter(is_published=True)
         resource_name = 'maps'
@@ -532,7 +532,7 @@ class DocumentResource(CommonModelApi):
     class Meta(CommonMetaApi):
         filtering = CommonMetaApi.filtering
         filtering.update({'doc_type': ALL})
-        queryset = Document.objects.distinct().order_by('-date')
+        queryset = Document.objects.distinct().order_by(settings, 'DEFAULT_SEARCH_SORT')
         if settings.RESOURCE_PUBLISHING:
             queryset = queryset.filter(is_published=True)
         resource_name = 'documents'
